@@ -13,7 +13,7 @@ public class Guess {
 		Process pro = new Process();
 //		int[] n =new int[100];
 //		for(int i=0;i<99;i++){
-//			n[i] = 3+i*i;
+//			n[i] = i+2;
 //		}
 //		Process pro = new Process(99, n);
 		pro.process();
@@ -41,8 +41,6 @@ class Process{
 				num--;
 				if(i<where){	//如果删除的数在已搜索位子的前面，那么返回1标记
 					return 1;
-				}else{
-					return 0;
 				}
 			}
 		}
@@ -97,8 +95,6 @@ class Process{
 		this.n = n;			//这是引用赋值 注意
 	}
 	
-
-
 	//具体执行函数
 	public void process(){
 		int i=0; 

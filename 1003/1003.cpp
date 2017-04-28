@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 1003.cpp
  *
  *  Created on: 2017年4月14日
@@ -82,16 +82,16 @@ int f2(string str){
 	 * 在执行下面判断之前先要排除输入的字符串是单单的“PAT"
 	 * 原因是：下面的for循环条件判断有一个思维漏洞，所以用此句话补充
 	 */
-	if(i==j) return 1;		//如果前面的字符和pat后面的字符都不存在，那么就是'PAT'了，返回true
+	if(i==0&&j==0) return 1;		//如果前面的字符和pat后面的字符都不存在，那么就是'PAT'了，返回true
 	string::iterator itstr;
-	string::reverse_iterator ritstr;
-	for(itstr=str.begin();itstr!=str.begin()+i-1;++itstr){
+	string::reverse_iterator ritstr;		//注意反向迭代与正向逻辑相反，只需要把字符串尾指针当作0看就好
+	for(itstr=str.begin();itstr<=str.begin()+i-1;++itstr){
 		if(*itstr != 'A' ){			//如果aPATb a中出现了非‘A’的那么一定不符合我们删选的条件
 			return 0;
 		}
 	}
 	//aPATb 搜索b中是否含有不是'A'的字符
-	for(ritstr=str.rbegin();ritstr!=str.rbegin()-j+1;--ritstr){
+	for(ritstr=str.rbegin();ritstr<=str.rbegin()+j-1;++ritstr){
 		if(*ritstr != 'A'){
 			return 0;			//有不含A的就一定不成功
 		}
@@ -126,17 +126,23 @@ bool bf3(string str,int& i,int& j){
  */
 bool f3(string str){
 	int i,j;		//在执行bf3后ij就是PT的下标值
-//	string chstr;   //aPbTc 存放这个字符串的子字符串b
+	string bstr;   //aPbTc 存放这个字符串的子字符串b
 	if(!bf3(str,i,j)){
 		return false;		//连bf3都不通过，那么就直接返回false
 	}
 	int a=i,b=j-i-1,c=str.length()-j-1;		//aPbTc int变量的abc分别代表abc字符串各有多少个A
 
 //	//由于通过了bf3所以这里的子字符串一定是有'A'构成，数量j-i-1个
-//	chstr = str.substr(i+1,j);   //返回 fdsfdf 如果是2，4的话返回的字符串是sf即下标是2-3的，序号3-4的
+	bstr = str.substr(i+1,j-i-1);   //返回 fdsfdf 如果是2，4的话返回的字符串是sf即下标是2-5的，序号3-6的
 
-	if(a==0||c==0){				//只要子字符串ac是空的那么，b而且长度一定在2以上（程序到了这一步），那么就不符合条件
-		return false;
+	if(a==0&&c==0){				//只要子字符串ac是空的那么，b而且长度一定在2以上（程序到了这一步），那么就不符合条件
+		return true;
+	}
+
+	//敢情这里还要一个b字符串判定是否只是有A构成
+	string::iterator itstr;
+	for(itstr=bstr.begin();itstr<bstr.end();itstr++){
+		if(*itstr!='A') return false;
 	}
 
 	//到了这一步，字符串只有可能是AAAPAAAATAAAA,其中A的数量不确定
