@@ -1,9 +1,12 @@
-/*
+﻿/*
  * Guess.cpp
  *
  *  Created on: 2017年4月28日
  *      Author: Administrator
  */
+//注意，对于的java代码功能和这个不一样，java代码通过不了第五个测试点
+//那是因为java中我把所有的覆盖的数全部删除了，而这里我是按照1005的题意，对于奇数只删除了（3n+1）/2的，而忽略了3n+1的数
+
 #include<iostream>
 #include<cstdlib>
 using namespace std;
@@ -79,27 +82,29 @@ public:
 
 	//具体执行函数
 	void process(){
-		int i=0;
 		int temp;
 
-		for(i=0;i<num;i++){		//num在removeSame中改变
+		for(int i=0;i<num;i++){		//num在removeSame中改变
 			temp = n[i];
 			while(temp != 1){
-				if(odevity(temp)){		//如果是奇数就执行下面语句
-					temp = 3*temp+1;
+				if(odevity(temp)){				//如果是奇数就执行下面语句
+					/**
+					 * 也就是如果输入的是3，那么3*3+1=10，10不算是被覆盖的（根据题意是这样的）事实上不是
+					 * 所以只能算10/2=5，5是被覆盖的
+					 */
+					temp = (3*temp+1)/2;			///!!!!!!原来是这儿错了，按照要求是要除2的。
 					i-=removeSame(temp,i);		//如果需要验证的数组中有这个数就删除，如果删除的数在搜索的前面就让搜索序号-1重新定位到当前元素
-				}
+				}else{
 				//如果是奇数的话，经过上述的if后一定是偶数，所以都可以除2
-				temp = temp/2;
-				i-=removeSame(temp,i); 			//同上
+					temp = temp/2;
+					i-=removeSame(temp,i); 			//同上
+				}
 			}
 		}
 	}
 };
 
-
-	int main( ){
-
+int main(){
 //		Process pro = new Process();
 		Process* pro = new Process();
 //		int[] n =new int[100];
@@ -110,9 +115,9 @@ public:
 		pro->process();
 		pro->sort();
 		pro->output();
+		delete pro;
 		return 0;
-
-	}
+}
 
 
 
