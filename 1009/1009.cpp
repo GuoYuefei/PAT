@@ -28,7 +28,7 @@ int main(){
 	for(int j=0;j<len-1;j++){
 		cout << words[j] << " ";
 	}
-	cout << words[len-1].substr(0,words[len-1].length()-1);			//为了输出没空格啊
+	cout << words[len-1].substr(0,words[len-1].length());			//为了输出没空格啊
 
 
 }
@@ -57,7 +57,7 @@ int decompose(string str,string* words){
 		i=str.find(' ',j+1);
 		len++;
 	}
-	words[len++] = str.substr(j,str.length()-j);
+	words[len++] = str.substr(j+1,str.length()-j);
 	return len;
 }
 
